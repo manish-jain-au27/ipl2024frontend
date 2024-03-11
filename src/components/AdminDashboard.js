@@ -1,50 +1,58 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, Form } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
+
+const ShowPlayerModal = ({ selectedPlayers, onClose }) => (
+  <Modal show={true} onHide={onClose}>
+    <Modal.Header closeButton>
+      <Modal.Title>Selected Players</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+      <ul>
+        {selectedPlayers.map((player, index) => (
+          <li key={index}>{player}</li>
+        ))}
+      </ul>
+    </Modal.Body>
+    <Modal.Footer>
+      <Button variant="secondary" onClick={onClose}>Close</Button>
+    </Modal.Footer>
+  </Modal>
+);
 
 const AdminDashboard = () => {
   const [forms, setForms] = useState([]);
   const [selectedPlayers, setSelectedPlayers] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [formId, setFormId] = useState(null);
-  const [editingForm, setEditingForm] = useState(null);
 
-  const handleShowModal = (players, id) => {
+  const handleShowModal = (players) => {
     setSelectedPlayers(players);
     setShowModal(true);
-    setFormId(id);
   };
 
   const handleCloseModal = () => {
     setSelectedPlayers([]);
     setShowModal(false);
     setFormId(null);
-    setEditingForm(null);
-  };
-
-  const handleEditForm = async (formId) => {
-    try {
-      const response = await fetch(`https://ipl2024.onrender.com/api/admin/forms/${formId}`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
-        }
-      });
-      const data = await response.json();
-      setEditingForm(data);
-      setShowModal(true); // Show the modal with the form for editing
-    } catch (error) {
-      console.error('Error fetching form data:', error);
-    }
   };
 
   useEffect(() => {
     const fetchForms = async () => {
-      const response = await fetch('https://ipl2024.onrender.com/api/admin/forms', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
+      try {
+        const response = await fetch('https://ipl2024.onrender.com/api/admin/forms', {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
+          }
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setForms(data);
+        } else {
+          console.error('Failed to fetch forms:', response.statusText);
         }
-      });
-      const data = await response.json();
-      setForms(data);
+      } catch (error) {
+        console.error('An error occurred while fetching forms:', error);
+      }
     };
     fetchForms();
   }, []);
@@ -72,45 +80,15 @@ const AdminDashboard = () => {
                   <td>{form.teamName}</td>
                   <td>{form.mobileNumber}</td>
                   <td>
-                    <Button onClick={() => handleShowModal([...form.selectedBatsmen, ...form.selectedBowlers, ...form.selectedAllRounders], form._id)}>
+                    <Button onClick={() => handleShowModal([...form.selectedBatsmen, ...form.selectedBowlers, ...form.selectedAllRounders])}>
                       Show Players
                     </Button>
-                    <Button variant="info" onClick={() => handleEditForm(form._id)}>Edit</Button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <Modal show={showModal} onHide={handleCloseModal}>
-            <Modal.Header closeButton>
-              <Modal.Title>Edit Form</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <Form>
-                <Form.Group controlId="formName">
-                  <Form.Label>Name</Form.Label>
-                  <Form.Control type="text" defaultValue={editingForm?.name} />
-                </Form.Group>
-                <Form.Group controlId="formTeamName">
-                  <Form.Label>Team Name</Form.Label>
-                  <Form.Control type="text" defaultValue={editingForm?.teamName} />
-                </Form.Group>
-                <Form.Group controlId="formMobileNumber">
-                  <Form.Label>Mobile Number</Form.Label>
-                  <Form.Control type="text" defaultValue={editingForm?.mobileNumber} />
-                </Form.Group>
-                {/* Add more form fields here */}
-              </Form>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleCloseModal}>
-                Close
-              </Button>
-              <Button variant="primary" onClick={handleEditForm}>
-                Save Changes
-              </Button>
-            </Modal.Footer>
-          </Modal>
+          {showModal && <ShowPlayerModal selectedPlayers={selectedPlayers} onClose={handleCloseModal} />}
         </>
       )}
     </div>

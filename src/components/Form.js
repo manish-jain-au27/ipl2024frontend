@@ -15,7 +15,7 @@ const FormComponent = () => {
   const [currentCategory, setCurrentCategory] = useState('');
   const [playerList, setPlayerList] = useState([]);
   const [error, setError] = useState('');
-
+  const [successMessage, setSuccessMessage] = useState('');
   const batsmen = ['YASHASVI JAISWAL', 'SHIMRON HETMYER', 'ROVMAN POWELL', 'SANJU SAMSON', 'JOS BUTTLER', 'FAF DU PLESSIS', 'KOHLI', 'RAJAT PATIDAR', 'DINESH KARTIK', 'ANUJ RAWAT', 'SHIKHAR DHAWAN', 'RILEE ROSSOUW', 'JONNY BAIRSTOW', 'JITESH SHARMA', 'PRABHSIMRAN SINGH', 'DEVDUTT PADIKKAL', 'QUINTON DE KOCK', 'K L RAHUL', 'NICHOLAS POORAN', 'SUBHAM GILL', 'DAVID MILLER', 'SAI SUDARSHAN', 'KANE WILLAMSON', 'MATTHEW WADE', 'SHREYAS IYER', 'NITISH RANA', 'JASON RAY', 'RINKU SINGH', 'GURBAZ', 'RUTURAJ GAIKWAD', 'AJINKYA RAHANE', 'DEVON CONWAY', 'DHONI', 'GLENN PHILIPS', 'MARKRAM', 'RAHUL TRIPATHI', 'TRAVIS HEAD', 'MAYANK AGARWAL', 'HEINRICH KLAASEN', 'ROHIT SHARMA', 'TIM DAVID', 'SURYAKUMAR YADAV', 'TILAK VARMA', 'DEWALD BREVIS', 'ISHAN KISHAN'];
 
   const bowlers = ['AVESH KHAN', 'TRENT BOULT', 'YUZVENDRA CHAHAL', 'ADAM ZAMPA', 'PRASIDH KRISHNA', 'REECE TOPLEY', 'ALZARI JOSHEP', 'MOHAMMED SIRAJ', 'AKASHDEEP', 'LOCKIE FEGURSON', 'NATHAN ELLIS', 'RAHUL CHAHAR', 'KAGISO RABADA', 'ARSHDEEP SINGH', 'HARSHAL PATEL', 'YASH THAKUR', 'SHAMAR JOSHEP', 'RAVI BISHNOI', 'NAVEEN UL HAQ', 'AMIT MISHRA', 'MOSIN KHAN', 'ISHANT SHARMA', 'ANRICH NORTEJ', 'LUNGI NGIDI', 'KULDEEP YADAV', 'MUKESH KUMAR', 'SPENCER JOHNSON', 'JOSHUA LITTLE', 'NOOR AHMED', 'MOHIT SHARMA', 'UMESH YADAV', 'VARUN CHAKRAVARTHY', 'MITCHELL STARC', 'MUJEEB UR RAHMAN', 'DUSHMANTHA CHAMEERA', 'D CHAHAR', 'TUSHAR DESHPANDE', 'M PATHIRANA', 'S THAKUR', 'MAHEESH THEEKSHANA', 'MUKESH CHOUDHARY', 'JAYDEV UNADKAT', 'MAYANK MARKANDE', 'T NATARAJAN', 'BHUVNESHWAR KUMAR', 'PAT CUMMINS', 'F FAROOQI', 'PIYUSH CHAWLA', 'GERALD COETZEE', 'JASPRIT BUMRAH', 'JASON BEHRENDORFF', 'AAKASH MADHWAL'];
@@ -48,9 +48,9 @@ const FormComponent = () => {
         setError('Please select exactly 5 batsmen, 4 bowlers, and 2 all-rounders');
         return;
       }
-
+  
       setError('');
-
+  
       const response = await fetch('https://ipl2024.onrender.com/api/forms/submit-form', {
         method: 'POST',
         headers: {
@@ -61,7 +61,8 @@ const FormComponent = () => {
       if (response.ok) {
         const data = await response.json();
         console.log('Form submitted successfully:', data);
-
+        setSuccessMessage('Form submitted successfully!');
+  
         // Clear form data after submission
         setFormData({
           name: '',
@@ -71,6 +72,11 @@ const FormComponent = () => {
           selectedBowlers: [],
           selectedAllRounders: [],
         });
+  
+        // Clear success message after a few seconds
+        setTimeout(() => {
+          setSuccessMessage('');
+        }, 3000);
       } else {
         console.error('Failed to submit form:', response.statusText);
       }
@@ -123,6 +129,9 @@ const FormComponent = () => {
 
   return (
     <div className="container mt-5">
+        {error && <div className="alert alert-danger">{error}</div>}
+      {successMessage && <div className="alert alert-success">{successMessage}</div>}
+      
       <h1 className="text-center">Player Selection</h1>
       {error && (
         <div className="alert alert-danger" role="alert">

@@ -30,26 +30,29 @@ const Navbar = () => {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     try {
-        const response = await fetch('https://ipl2024.onrender.com/api/admin/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password }),
-        });
-        if (response.ok) {
-            const data = await response.json();
-            const { token } = data;
-            localStorage.setItem('adminToken', token);
-            setLoggedIn(true);
-            setShowLogin(false);
-        } else {
-            console.error('Failed to login:', response.statusText);
-        }
+      const response = await fetch('https://ipl2024.onrender.com/api/admin/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        const { token } = data;
+        localStorage.setItem('adminToken', token);
+        setLoggedIn(true);
+        setShowLogin(false);
+        // Redirect to the admin dashboard
+        navigate('/AdminDashboard');
+      } else {
+        console.error('Failed to login:', response.statusText);
+      }
     } catch (error) {
-        console.error('An error occurred while logging in:', error);
+      console.error('An error occurred while logging in:', error);
     }
-};
+  };
+  
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
