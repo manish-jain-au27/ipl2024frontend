@@ -51,7 +51,7 @@ const FormComponent = () => {
 
       setError('');
 
-      const response = await fetch('http://localhost:3000/api/forms/submit-form', {
+      const response = await fetch('https://ipl2024.onrender.com/api/forms/submit-form', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

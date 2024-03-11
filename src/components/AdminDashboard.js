@@ -23,7 +23,7 @@ const AdminDashboard = () => {
 
   const handleEditForm = async (formId) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/admin/forms/${formId}`, {
+      const response = await fetch(`https://ipl2024.onrender.com/api/admin/forms/${formId}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
         }
@@ -38,7 +38,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     const fetchForms = async () => {
-      const response = await fetch('http://localhost:3000/api/admin/forms', {
+      const response = await fetch('https://ipl2024.onrender.com/api/admin/forms', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
         }
