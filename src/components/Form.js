@@ -18,6 +18,9 @@ const FormComponent = () => {
   const [playerList, setPlayerList] = useState([]);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const upiId = '9049410645';
+  const mobileNumber = 'Pratikjain776@kotak';
+
   const batsmen = ['YASHASVI JAISWAL', 'SHIMRON HETMYER', 'ROVMAN POWELL', 'SANJU SAMSON', 'JOS BUTTLER', 'FAF DU PLESSIS', 'KOHLI', 'RAJAT PATIDAR', 'DINESH KARTIK', 'ANUJ RAWAT', 'SHIKHAR DHAWAN', 'RILEE ROSSOUW', 'JONNY BAIRSTOW', 'JITESH SHARMA', 'PRABHSIMRAN SINGH', 'DEVDUTT PADIKKAL', 'QUINTON DE KOCK', 'K L RAHUL', 'NICHOLAS POORAN', 'SUBHAM GILL', 'DAVID MILLER', 'SAI SUDARSHAN', 'KANE WILLAMSON', 'MATTHEW WADE', 'SHREYAS IYER', 'NITISH RANA', 'JASON RAY', 'RINKU SINGH', 'GURBAZ', 'RUTURAJ GAIKWAD', 'AJINKYA RAHANE', 'DEVON CONWAY', 'DHONI', 'GLENN PHILIPS', 'MARKRAM', 'RAHUL TRIPATHI', 'TRAVIS HEAD', 'MAYANK AGARWAL', 'HEINRICH KLAASEN', 'ROHIT SHARMA', 'TIM DAVID', 'SURYAKUMAR YADAV', 'TILAK VARMA', 'DEWALD BREVIS', 'ISHAN KISHAN'];
 
   const bowlers = ['AVESH KHAN', 'TRENT BOULT', 'YUZVENDRA CHAHAL', 'ADAM ZAMPA', 'PRASIDH KRISHNA', 'REECE TOPLEY', 'ALZARI JOSHEP', 'MOHAMMED SIRAJ', 'AKASHDEEP', 'LOCKIE FEGURSON', 'NATHAN ELLIS', 'RAHUL CHAHAR', 'KAGISO RABADA', 'ARSHDEEP SINGH', 'HARSHAL PATEL', 'YASH THAKUR', 'SHAMAR JOSHEP', 'RAVI BISHNOI', 'NAVEEN UL HAQ', 'AMIT MISHRA', 'MOSIN KHAN', 'ISHANT SHARMA', 'ANRICH NORTEJ', 'LUNGI NGIDI', 'KULDEEP YADAV', 'MUKESH KUMAR', 'SPENCER JOHNSON', 'JOSHUA LITTLE', 'NOOR AHMED', 'MOHIT SHARMA', 'UMESH YADAV', 'VARUN CHAKRAVARTHY', 'MITCHELL STARC', 'MUJEEB UR RAHMAN', 'DUSHMANTHA CHAMEERA', 'D CHAHAR', 'TUSHAR DESHPANDE', 'M PATHIRANA', 'S THAKUR', 'MAHEESH THEEKSHANA', 'MUKESH CHOUDHARY', 'JAYDEV UNADKAT', 'MAYANK MARKANDE', 'T NATARAJAN', 'BHUVNESHWAR KUMAR', 'PAT CUMMINS', 'F FAROOQI', 'PIYUSH CHAWLA', 'GERALD COETZEE', 'JASPRIT BUMRAH', 'JASON BEHRENDORFF', 'AAKASH MADHWAL'];
@@ -136,6 +139,11 @@ const FormComponent = () => {
     }
   };
 
+  const handlePayment = () => {
+    setShowModal(true);
+    setCurrentCategory('payment');
+  };
+
   return (
     <div className="container mt-5">
       {error && <div className="alert alert-danger">{error}</div>}
@@ -208,23 +216,23 @@ const FormComponent = () => {
                 </tr>
               </thead>
               <tbody>
-  <tr>
-    <td>Batsmen</td>
-    <td>{formData.selectedBatsmen.join(', ')}</td>
-  </tr>
-  <tr>
-    <td>Bowlers</td>
-    <td>{formData.selectedBowlers.join(', ')}</td>
-  </tr>
-  <tr>
-    <td>All-Rounders</td>
-    <td>{formData.selectedAllRounders.join(', ')}</td>
-  </tr>
-  <tr>
-    <td>Star Player</td>
-    <td>{formData.starPlayer}</td>
-  </tr>
-</tbody>
+                <tr>
+                  <td>Batsmen</td>
+                  <td>{formData.selectedBatsmen.join(', ')}</td>
+                </tr>
+                <tr>
+                  <td>Bowlers</td>
+                  <td>{formData.selectedBowlers.join(', ')}</td>
+                </tr>
+                <tr>
+                  <td>All-Rounders</td>
+                  <td>{formData.selectedAllRounders.join(', ')}</td>
+                </tr>
+                <tr>
+                  <td>Star Player</td>
+                  <td>{formData.starPlayer}</td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </div>
@@ -232,6 +240,11 @@ const FormComponent = () => {
           <div className="col">
             <button type="submit" className="btn btn-primary">
               Submit
+            </button>
+          </div>
+          <div className="col">
+            <button type="button" className="btn btn-primary" onClick={handlePayment}>
+              Make Payment
             </button>
           </div>
         </div>
@@ -242,28 +255,45 @@ const FormComponent = () => {
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Select Players</h5>
+                <h5 className="modal-title">Payment Details</h5>
                 <button type="button" className="btn-close" onClick={closeModal}></button>
               </div>
               <div className="modal-body">
+                <p>UPI ID: {upiId}</p>
+                <p>Mobile Number: {mobileNumber}</p>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" onClick={closeModal}>
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showStarPlayerModal && (
+        <div className="modal" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Select Star Player</h5>
+                <button type="button" className="btn-close" onClick={closeStarPlayerModal}></button>
+              </div>
+              <div className="modal-body">
                 <div className="row row-cols-3">
-                  {playerList.map((player) => (
+                  {batsmen.map((player) => (
                     <div key={player} className="col">
                       <div className="form-check">
                         <input
                           className="form-check-input"
-                          type="checkbox"
-                          id={`player-${player}`}
-                          onChange={(e) => handleCheckboxChange(player, e.target.checked)}
-                          checked={
-                            currentCategory === 'batsmen'
-                              ? formData.selectedBatsmen.includes(player)
-                              : currentCategory === 'bowlers'
-                              ? formData.selectedBowlers.includes(player)
-                              : formData.selectedAllRounders.includes(player)
-                          }
+                          type="radio"
+                          id={`star-player-${player}`}
+                          value={player}
+                          checked={formData.starPlayer === player}
+                          onChange={(e) => setFormData({ ...formData, starPlayer: e.target.value })}
                         />
-                        <label className="form-check-label" htmlFor={`player-${player}`}>
+                        <label className="form-check-label" htmlFor={`star-player-${player}`}>
                           {player}
                         </label>
                       </div>
@@ -272,10 +302,10 @@ const FormComponent = () => {
                 </div>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={closeModal}>
+                <button type="button" className="btn btn-secondary" onClick={closeStarPlayerModal}>
                   Close
                 </button>
-                <button type="button" className="btn btn-primary" onClick={closeModal}>
+                <button type="button" className="btn btn-primary" onClick={closeStarPlayerModal}>
                   Save changes
                 </button>
               </div>
@@ -283,48 +313,6 @@ const FormComponent = () => {
           </div>
         </div>
       )}
-
-{showStarPlayerModal && (
-  <div className="modal" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
-    <div className="modal-dialog" role="document">
-      <div className="modal-content">
-        <div className="modal-header">
-          <h5 className="modal-title">Select Star Player</h5>
-          <button type="button" className="btn-close" onClick={closeStarPlayerModal}></button>
-        </div>
-        <div className="modal-body">
-          <div className="row row-cols-3">
-            {batsmen.map((player) => (
-              <div key={player} className="col">
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    id={`star-player-${player}`}
-                    value={player}
-                    checked={formData.starPlayer === player}
-                    onChange={(e) => setFormData({ ...formData, starPlayer: e.target.value })}
-                  />
-                  <label className="form-check-label" htmlFor={`star-player-${player}`}>
-                    {player}
-                  </label>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" onClick={closeStarPlayerModal}>
-            Close
-          </button>
-          <button type="button" className="btn btn-primary" onClick={closeStarPlayerModal}>
-            Save changes
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
 
     </div>
   );
