@@ -9,9 +9,11 @@ const FormComponent = () => {
     selectedBatsmen: [],
     selectedBowlers: [],
     selectedAllRounders: [],
+    starPlayer: '',
   });
 
   const [showModal, setShowModal] = useState(false);
+  const [showStarPlayerModal, setShowStarPlayerModal] = useState(false);
   const [currentCategory, setCurrentCategory] = useState('');
   const [playerList, setPlayerList] = useState([]);
   const [error, setError] = useState('');
@@ -39,7 +41,6 @@ const FormComponent = () => {
     }));
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -48,9 +49,9 @@ const FormComponent = () => {
         setError('Please select exactly 5 batsmen, 4 bowlers, and 2 all-rounders');
         return;
       }
-  
+
       setError('');
-  
+
       const response = await fetch('https://ipl2024.onrender.com/api/forms/submit-form', {
         method: 'POST',
         headers: {
@@ -62,7 +63,7 @@ const FormComponent = () => {
         const data = await response.json();
         console.log('Form submitted successfully:', data);
         setSuccessMessage('Form submitted successfully!');
-  
+
         // Clear form data after submission
         setFormData({
           name: '',
@@ -71,8 +72,9 @@ const FormComponent = () => {
           selectedBatsmen: [],
           selectedBowlers: [],
           selectedAllRounders: [],
+          starPlayer: '',
         });
-  
+
         // Clear success message after a few seconds
         setTimeout(() => {
           setSuccessMessage('');
@@ -93,6 +95,14 @@ const FormComponent = () => {
 
   const closeModal = () => {
     setShowModal(false);
+  };
+
+  const openStarPlayerModal = () => {
+    setShowStarPlayerModal(true);
+  };
+
+  const closeStarPlayerModal = () => {
+    setShowStarPlayerModal(false);
   };
 
   const handleCheckboxChange = (playerName, checked) => {
@@ -126,18 +136,12 @@ const FormComponent = () => {
     }
   };
 
-
   return (
     <div className="container mt-5">
-        {error && <div className="alert alert-danger">{error}</div>}
+      {error && <div className="alert alert-danger">{error}</div>}
       {successMessage && <div className="alert alert-success">{successMessage}</div>}
       
       <h1 className="text-center">Player Selection</h1>
-      {error && (
-        <div className="alert alert-danger" role="alert">
-          {error}
-        </div>
-      )}
       <form onSubmit={handleSubmit}>
         <div className="row g-3">
           <div className="col-md-6">
@@ -170,6 +174,12 @@ const FormComponent = () => {
               onChange={(e) => setFormData({ ...formData, mobileNumber: e.target.value })}
             />
           </div>
+          <div className="col-md-6">
+            <label htmlFor="starPlayer" className="form-label">Star Player:</label>
+            <button className="btn btn-primary w-100" type="button" onClick={openStarPlayerModal}>
+              Select Star Player
+            </button>
+          </div>
         </div>
         <div className="row mt-3">
           <div className="col-md-4">
@@ -198,19 +208,23 @@ const FormComponent = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Batsmen</td>
-                  <td>{formData.selectedBatsmen.join(', ')}</td>
-                </tr>
-                <tr>
-                  <td>Bowlers</td>
-                  <td>{formData.selectedBowlers.join(', ')}</td>
-                </tr>
-                <tr>
-                  <td>All-Rounders</td>
-                  <td>{formData.selectedAllRounders.join(', ')}</td>
-                </tr>
-              </tbody>
+  <tr>
+    <td>Batsmen</td>
+    <td>{formData.selectedBatsmen.join(', ')}</td>
+  </tr>
+  <tr>
+    <td>Bowlers</td>
+    <td>{formData.selectedBowlers.join(', ')}</td>
+  </tr>
+  <tr>
+    <td>All-Rounders</td>
+    <td>{formData.selectedAllRounders.join(', ')}</td>
+  </tr>
+  <tr>
+    <td>Star Player</td>
+    <td>{formData.starPlayer}</td>
+  </tr>
+</tbody>
             </table>
           </div>
         </div>
@@ -269,6 +283,49 @@ const FormComponent = () => {
           </div>
         </div>
       )}
+
+{showStarPlayerModal && (
+  <div className="modal" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
+    <div className="modal-dialog" role="document">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h5 className="modal-title">Select Star Player</h5>
+          <button type="button" className="btn-close" onClick={closeStarPlayerModal}></button>
+        </div>
+        <div className="modal-body">
+          <div className="row row-cols-3">
+            {batsmen.map((player) => (
+              <div key={player} className="col">
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    id={`star-player-${player}`}
+                    value={player}
+                    checked={formData.starPlayer === player}
+                    onChange={(e) => setFormData({ ...formData, starPlayer: e.target.value })}
+                  />
+                  <label className="form-check-label" htmlFor={`star-player-${player}`}>
+                    {player}
+                  </label>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="modal-footer">
+          <button type="button" className="btn btn-secondary" onClick={closeStarPlayerModal}>
+            Close
+          </button>
+          <button type="button" className="btn btn-primary" onClick={closeStarPlayerModal}>
+            Save changes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };

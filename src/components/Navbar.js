@@ -52,7 +52,6 @@ const Navbar = () => {
       console.error('An error occurred while logging in:', error);
     }
   };
-  
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
