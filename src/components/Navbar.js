@@ -30,7 +30,7 @@ const Navbar = () => {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://ipl2024.onrender.com/api/admin/login', {
+      const response = await fetch('https://pk-premier-league-2024.onrender.com/api/admin/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

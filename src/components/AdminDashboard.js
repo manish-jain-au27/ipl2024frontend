@@ -39,7 +39,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchForms = async () => {
       try {
-        const response = await fetch('https://ipl2024.onrender.com/api/admin/forms', {
+        const response = await fetch('https://pk-premier-league-2024.onrender.com/api/admin/forms', {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
           }
