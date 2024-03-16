@@ -10,7 +10,7 @@ const ShowPlayersModal = ({ selectedPlayers, onClose }) => {
       <Modal.Body>
         <h5>Batsmen:</h5>
         <ul>
-          {selectedPlayers.filter(player => player.type === 'batsman').map(player => (
+          {selectedPlayers.filter(player => player.type === 'batsmen').map(player => (
             <li key={player.name}>{player.name}</li>
           ))}
         </ul>

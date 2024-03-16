@@ -9,7 +9,7 @@ const FormComponent = () => {
     selectedBatsmen: [],
     selectedBowlers: [],
     selectedAllRounders: [],
-    starPlayer: '',
+    selectedStarPlayer: '',
   });
 
   const [showModal, setShowModal] = useState(false);
@@ -21,14 +21,13 @@ const FormComponent = () => {
   const upiId = '9049410645';
   const mobileNumber = 'Pratikjain776@kotak';
 
+
   const batsmen = ['YASHASVI JAISWAL', 'SHIMRON HETMYER', 'ROVMAN POWELL', 'SANJU SAMSON', 'JOS BUTTLER', 'FAF DU PLESSIS', 'KOHLI', 'RAJAT PATIDAR', 'DINESH KARTIK', 'ANUJ RAWAT', 'SHIKHAR DHAWAN', 'RILEE ROSSOUW', 'JONNY BAIRSTOW', 'JITESH SHARMA', 'PRABHSIMRAN SINGH', 'DEVDUTT PADIKKAL', 'QUINTON DE KOCK', 'K L RAHUL', 'NICHOLAS POORAN', 'SUBHAM GILL', 'DAVID MILLER', 'SAI SUDARSHAN', 'KANE WILLAMSON', 'MATTHEW WADE', 'SHREYAS IYER', 'NITISH RANA', 'JASON RAY', 'RINKU SINGH', 'GURBAZ', 'RUTURAJ GAIKWAD', 'AJINKYA RAHANE', 'DEVON CONWAY', 'DHONI', 'GLENN PHILIPS', 'MARKRAM', 'RAHUL TRIPATHI', 'TRAVIS HEAD', 'MAYANK AGARWAL', 'HEINRICH KLAASEN', 'ROHIT SHARMA', 'TIM DAVID', 'SURYAKUMAR YADAV', 'TILAK VARMA', 'DEWALD BREVIS', 'ISHAN KISHAN'];
 
   const bowlers = ['AVESH KHAN', 'TRENT BOULT', 'YUZVENDRA CHAHAL', 'ADAM ZAMPA', 'PRASIDH KRISHNA', 'REECE TOPLEY', 'ALZARI JOSHEP', 'MOHAMMED SIRAJ', 'AKASHDEEP', 'LOCKIE FEGURSON', 'NATHAN ELLIS', 'RAHUL CHAHAR', 'KAGISO RABADA', 'ARSHDEEP SINGH', 'HARSHAL PATEL', 'YASH THAKUR', 'SHAMAR JOSHEP', 'RAVI BISHNOI', 'NAVEEN UL HAQ', 'AMIT MISHRA', 'MOSIN KHAN', 'ISHANT SHARMA', 'ANRICH NORTEJ', 'LUNGI NGIDI', 'KULDEEP YADAV', 'MUKESH KUMAR', 'SPENCER JOHNSON', 'JOSHUA LITTLE', 'NOOR AHMED', 'MOHIT SHARMA', 'UMESH YADAV', 'VARUN CHAKRAVARTHY', 'MITCHELL STARC', 'MUJEEB UR RAHMAN', 'DUSHMANTHA CHAMEERA', 'D CHAHAR', 'TUSHAR DESHPANDE', 'M PATHIRANA', 'S THAKUR', 'MAHEESH THEEKSHANA', 'MUKESH CHOUDHARY', 'JAYDEV UNADKAT', 'MAYANK MARKANDE', 'T NATARAJAN', 'BHUVNESHWAR KUMAR', 'PAT CUMMINS', 'F FAROOQI', 'PIYUSH CHAWLA', 'GERALD COETZEE', 'JASPRIT BUMRAH', 'JASON BEHRENDORFF', 'AAKASH MADHWAL'];
 
   const allRounders = ['RAVICHANDRAN ASHWIN', 'RIYAN PARAG', 'GLENN MAXWELL', 'C GREEN', 'TOM CURRAN', 'LIAM LIVINGSTONE', 'SAM CURRAN', 'SIKANDAR RAZA', 'CHRIS WOAKES', 'KRUNAL PANDYA', 'MARCUS STOINIS', 'DEEPAK HOODA', 'KYLE MAYERS', 'DAVID WILLEY', 'MITCHELL MARSH', 'AXAR PATEL', 'LALIT YADAV', 'VIJAY SHANKAR', 'RASHID KHAN', 'RAHUL TEWATIA', 'VENKATESH IYER', 'ANDRE RUSSELL', 'S NARINE', 'DARYL MITCHELL', 'MOEEN ALI', 'R RAVINDRA', 'SHIVAM DUBE', 'RAVINDRA JADEJA', 'WASHINGTON SUNDAR', 'SHAHABAZ AHMED', 'ABHISHEK SHARMA', 'MARCO JANSEN', 'HARDIK PANDYA', 'MOHAMMAD NABI', 'ARJUN TENDULKAR', 'SHREYAS GOPAL'];
-
   const handlePlayerSelection = (category, playerName) => {
-    // Validation logic for number of players
     if ((category === 'batsmen' && formData.selectedBatsmen.length === 5) ||
         (category === 'bowlers' && formData.selectedBowlers.length === 4) ||
         (category === 'allRounders' && formData.selectedAllRounders.length === 2)) {
@@ -48,8 +47,13 @@ const FormComponent = () => {
     e.preventDefault();
     try {
       // Validation logic for number of players
-      if (formData.selectedBatsmen.length !== 5 || formData.selectedBowlers.length !== 4 || formData.selectedAllRounders.length !== 2) {
-        setError('Please select exactly 5 batsmen, 4 bowlers, and 2 all-rounders');
+      if (
+        formData.selectedBatsmen.length !== 5 ||
+        formData.selectedBowlers.length !== 4 ||
+        formData.selectedAllRounders.length !== 2 ||
+        formData.selectedStarPlayer === ''
+      ) {
+        setError('Please select exactly 5 batsmen, 4 bowlers, 2 all-rounders, and a star player');
         return;
       }
 
@@ -75,7 +79,7 @@ const FormComponent = () => {
           selectedBatsmen: [],
           selectedBowlers: [],
           selectedAllRounders: [],
-          starPlayer: '',
+          selectedStarPlayer: '',
         });
 
         // Clear success message after a few seconds
@@ -138,6 +142,8 @@ const FormComponent = () => {
         break;
     }
   };
+
+
 
   const handlePayment = () => {
     setShowModal(true);
@@ -216,23 +222,24 @@ const FormComponent = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Batsmen</td>
-                  <td>{formData.selectedBatsmen.join(', ')}</td>
-                </tr>
-                <tr>
-                  <td>Bowlers</td>
-                  <td>{formData.selectedBowlers.join(', ')}</td>
-                </tr>
-                <tr>
-                  <td>All-Rounders</td>
-                  <td>{formData.selectedAllRounders.join(', ')}</td>
-                </tr>
-                <tr>
-                  <td>Star Player</td>
-                  <td>{formData.starPlayer}</td>
-                </tr>
-              </tbody>
+  <tr>
+    <td>Batsmen</td>
+    <td>{formData.selectedBatsmen.join(', ')}</td>
+  </tr>
+  <tr>
+    <td>Bowlers</td>
+    <td>{formData.selectedBowlers.join(', ')}</td>
+  </tr>
+  <tr>
+    <td>All-Rounders</td>
+    <td>{formData.selectedAllRounders.join(', ')}</td>
+  </tr>
+  <tr>
+    <td>Star Player</td>
+    <td>{formData.selectedStarPlayer}</td>
+  </tr>
+</tbody>
+
             </table>
           </div>
         </div>
@@ -242,78 +249,68 @@ const FormComponent = () => {
               Submit
             </button>
           </div>
-          <div className="col">
-            <button type="button" className="btn btn-primary" onClick={handlePayment}>
-              Make Payment
-            </button>
-          </div>
         </div>
       </form>
 
-      {showModal && (
-        <div className="modal" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Payment Details</h5>
-                <button type="button" className="btn-close" onClick={closeModal}></button>
-              </div>
-              <div className="modal-body">
-                <p>UPI ID: {upiId}</p>
-                <p>Mobile Number: {mobileNumber}</p>
-              </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={closeModal}>
-                  Close
-                </button>
-              </div>
+      {/* Modal for selecting players */}
+      <div className={`modal ${showModal ? 'show' : ''}`} tabIndex="-1" role="dialog" style={{ display: showModal ? 'block' : 'none' }}>
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Select {currentCategory}</h5>
+              <button type="button" className="btn-close" onClick={closeModal}></button>
+            </div>
+            <div className="modal-body">
+              <ul className="list-group">
+                {playerList.map((player) => (
+                  <li key={player} className="list-group-item">
+                    <label>
+                      <input
+                        type="checkbox"
+                        onChange={(e) => handleCheckboxChange(player, e.target.checked)}
+                      />
+                      {player}
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" onClick={closeModal}>Close</button>
             </div>
           </div>
         </div>
-      )}
+      </div>
 
-      {showStarPlayerModal && (
-        <div className="modal" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Select Star Player</h5>
-                <button type="button" className="btn-close" onClick={closeStarPlayerModal}></button>
-              </div>
-              <div className="modal-body">
-                <div className="row row-cols-3">
-                  {batsmen.map((player) => (
-                    <div key={player} className="col">
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="radio"
-                          id={`star-player-${player}`}
-                          value={player}
-                          checked={formData.starPlayer === player}
-                          onChange={(e) => setFormData({ ...formData, starPlayer: e.target.value })}
-                        />
-                        <label className="form-check-label" htmlFor={`star-player-${player}`}>
-                          {player}
-                        </label>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={closeStarPlayerModal}>
-                  Close
-                </button>
-                <button type="button" className="btn btn-primary" onClick={closeStarPlayerModal}>
-                  Save changes
-                </button>
-              </div>
+      {/* Modal for selecting star player */}
+      <div className={`modal ${showStarPlayerModal ? 'show' : ''}`} tabIndex="-1" role="dialog" style={{ display: showStarPlayerModal ? 'block' : 'none' }}>
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Select Star Player</h5>
+              <button type="button" className="btn-close" onClick={closeStarPlayerModal}></button>
+            </div>
+            <div className="modal-body">
+              <ul className="list-group">
+                {batsmen.map((player) => (
+                  <li key={player} className="list-group-item">
+                    <label>
+                      <input
+                        type="checkbox"
+                        onChange={(e) => setFormData({ ...formData, starPlayer: e.target.checked ? player : '' })}
+                      />
+                      {player}
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" onClick={closeStarPlayerModal}>Close</button>
             </div>
           </div>
         </div>
-      )}
-
+      </div>
     </div>
   );
 };
