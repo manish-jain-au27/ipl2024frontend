@@ -18,15 +18,20 @@ const FormComponent = () => {
   const [playerList, setPlayerList] = useState([]);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [starPlayerChecked, setStarPlayerChecked] = useState(false);
+
   const upiId = '9049410645';
   const mobileNumber = 'Pratikjain776@kotak';
-
 
   const batsmen = ['YASHASVI JAISWAL', 'SHIMRON HETMYER', 'ROVMAN POWELL', 'SANJU SAMSON', 'JOS BUTTLER', 'FAF DU PLESSIS', 'KOHLI', 'RAJAT PATIDAR', 'DINESH KARTIK', 'ANUJ RAWAT', 'SHIKHAR DHAWAN', 'RILEE ROSSOUW', 'JONNY BAIRSTOW', 'JITESH SHARMA', 'PRABHSIMRAN SINGH', 'DEVDUTT PADIKKAL', 'QUINTON DE KOCK', 'K L RAHUL', 'NICHOLAS POORAN', 'SUBHAM GILL', 'DAVID MILLER', 'SAI SUDARSHAN', 'KANE WILLAMSON', 'MATTHEW WADE', 'SHREYAS IYER', 'NITISH RANA', 'JASON RAY', 'RINKU SINGH', 'GURBAZ', 'RUTURAJ GAIKWAD', 'AJINKYA RAHANE', 'DEVON CONWAY', 'DHONI', 'GLENN PHILIPS', 'MARKRAM', 'RAHUL TRIPATHI', 'TRAVIS HEAD', 'MAYANK AGARWAL', 'HEINRICH KLAASEN', 'ROHIT SHARMA', 'TIM DAVID', 'SURYAKUMAR YADAV', 'TILAK VARMA', 'DEWALD BREVIS', 'ISHAN KISHAN'];
 
   const bowlers = ['AVESH KHAN', 'TRENT BOULT', 'YUZVENDRA CHAHAL', 'ADAM ZAMPA', 'PRASIDH KRISHNA', 'REECE TOPLEY', 'ALZARI JOSHEP', 'MOHAMMED SIRAJ', 'AKASHDEEP', 'LOCKIE FEGURSON', 'NATHAN ELLIS', 'RAHUL CHAHAR', 'KAGISO RABADA', 'ARSHDEEP SINGH', 'HARSHAL PATEL', 'YASH THAKUR', 'SHAMAR JOSHEP', 'RAVI BISHNOI', 'NAVEEN UL HAQ', 'AMIT MISHRA', 'MOSIN KHAN', 'ISHANT SHARMA', 'ANRICH NORTEJ', 'LUNGI NGIDI', 'KULDEEP YADAV', 'MUKESH KUMAR', 'SPENCER JOHNSON', 'JOSHUA LITTLE', 'NOOR AHMED', 'MOHIT SHARMA', 'UMESH YADAV', 'VARUN CHAKRAVARTHY', 'MITCHELL STARC', 'MUJEEB UR RAHMAN', 'DUSHMANTHA CHAMEERA', 'D CHAHAR', 'TUSHAR DESHPANDE', 'M PATHIRANA', 'S THAKUR', 'MAHEESH THEEKSHANA', 'MUKESH CHOUDHARY', 'JAYDEV UNADKAT', 'MAYANK MARKANDE', 'T NATARAJAN', 'BHUVNESHWAR KUMAR', 'PAT CUMMINS', 'F FAROOQI', 'PIYUSH CHAWLA', 'GERALD COETZEE', 'JASPRIT BUMRAH', 'JASON BEHRENDORFF', 'AAKASH MADHWAL'];
 
   const allRounders = ['RAVICHANDRAN ASHWIN', 'RIYAN PARAG', 'GLENN MAXWELL', 'C GREEN', 'TOM CURRAN', 'LIAM LIVINGSTONE', 'SAM CURRAN', 'SIKANDAR RAZA', 'CHRIS WOAKES', 'KRUNAL PANDYA', 'MARCUS STOINIS', 'DEEPAK HOODA', 'KYLE MAYERS', 'DAVID WILLEY', 'MITCHELL MARSH', 'AXAR PATEL', 'LALIT YADAV', 'VIJAY SHANKAR', 'RASHID KHAN', 'RAHUL TEWATIA', 'VENKATESH IYER', 'ANDRE RUSSELL', 'S NARINE', 'DARYL MITCHELL', 'MOEEN ALI', 'R RAVINDRA', 'SHIVAM DUBE', 'RAVINDRA JADEJA', 'WASHINGTON SUNDAR', 'SHAHABAZ AHMED', 'ABHISHEK SHARMA', 'MARCO JANSEN', 'HARDIK PANDYA', 'MOHAMMAD NABI', 'ARJUN TENDULKAR', 'SHREYAS GOPAL'];
+
+  const starPlayers = ['YASHASVI JAISWAL', 'SHIMRON HETMYER', 'ROVMAN POWELL', 'SANJU SAMSON', 'JOS BUTTLER', 'FAF DU PLESSIS', 'KOHLI', 'RAJAT PATIDAR', 'DINESH KARTIK', 'ANUJ RAWAT', 'SHIKHAR DHAWAN', 'RILEE ROSSOUW', 'JONNY BAIRSTOW', 'JITESH SHARMA', 'PRABHSIMRAN SINGH', 'DEVDUTT PADIKKAL', 'QUINTON DE KOCK', 'K L RAHUL', 'NICHOLAS POORAN', 'SUBHAM GILL', 'DAVID MILLER', 'SAI SUDARSHAN', 'KANE WILLAMSON', 'MATTHEW WADE', 'SHREYAS IYER', 'NITISH RANA', 'JASON RAY', 'RINKU SINGH', 'GURBAZ', 'RUTURAJ GAIKWAD', 'AJINKYA RAHANE', 'DEVON CONWAY', 'DHONI', 'GLENN PHILIPS', 'MARKRAM', 'RAHUL TRIPATHI', 'TRAVIS HEAD', 'MAYANK AGARWAL', 'HEINRICH KLAASEN', 'ROHIT SHARMA', 'TIM DAVID', 'SURYAKUMAR YADAV', 'TILAK VARMA', 'DEWALD BREVIS', 'ISHAN KISHAN',
+  'AVESH KHAN', 'TRENT BOULT', 'YUZVENDRA CHAHAL', 'ADAM ZAMPA', 'PRASIDH KRISHNA', 'REECE TOPLEY', 'ALZARI JOSHEP', 'MOHAMMED SIRAJ', 'AKASHDEEP', 'LOCKIE FEGURSON', 'NATHAN ELLIS', 'RAHUL CHAHAR', 'KAGISO RABADA', 'ARSHDEEP SINGH', 'HARSHAL PATEL', 'YASH THAKUR', 'SHAMAR JOSHEP', 'RAVI BISHNOI', 'NAVEEN UL HAQ', 'AMIT MISHRA', 'MOSIN KHAN', 'ISHANT SHARMA', 'ANRICH NORTEJ', 'LUNGI NGIDI', 'KULDEEP YADAV', 'MUKESH KUMAR', 'SPENCER JOHNSON', 'JOSHUA LITTLE', 'NOOR AHMED', 'MOHIT SHARMA', 'UMESH YADAV', 'VARUN CHAKRAVARTHY', 'MITCHELL STARC', 'MUJEEB UR RAHMAN', 'DUSHMANTHA CHAMEERA', 'D CHAHAR', 'TUSHAR DESHPANDE', 'M PATHIRANA', 'S THAKUR', 'MAHEESH THEEKSHANA', 'MUKESH CHOUDHARY', 'JAYDEV UNADKAT', 'MAYANK MARKANDE', 'T NATARAJAN', 'BHUVNESHWAR KUMAR', 'PAT CUMMINS', 'F FAROOQI', 'PIYUSH CHAWLA', 'GERALD COETZEE', 'JASPRIT BUMRAH', 'JASON BEHRENDORFF', 'AAKASH MADHWAL',
+  'RAVICHANDRAN ASHWIN', 'RIYAN PARAG', 'GLENN MAXWELL', 'C GREEN', 'TOM CURRAN', 'LIAM LIVINGSTONE', 'SAM CURRAN', 'SIKANDAR RAZA', 'CHRIS WOAKES', 'KRUNAL PANDYA', 'MARCUS STOINIS', 'DEEPAK HOODA', 'KYLE MAYERS', 'DAVID WILLEY', 'MITCHELL MARSH', 'AXAR PATEL', 'LALIT YADAV', 'VIJAY SHANKAR', 'RASHID KHAN', 'RAHUL TEWATIA', 'VENKATESH IYER', 'ANDRE RUSSELL', 'S NARINE', 'DARYL MITCHELL', 'MOEEN ALI', 'R RAVINDRA', 'SHIVAM DUBE', 'RAVINDRA JADEJA', 'WASHINGTON SUNDAR', 'SHAHABAZ AHMED', 'ABHISHEK SHARMA', 'MARCO JANSEN', 'HARDIK PANDYA', 'MOHAMMAD NABI', 'ARJUN TENDULKAR', 'SHREYAS GOPAL']
   const handlePlayerSelection = (category, playerName) => {
     if ((category === 'batsmen' && formData.selectedBatsmen.length === 5) ||
         (category === 'bowlers' && formData.selectedBowlers.length === 4) ||
@@ -104,9 +109,12 @@ const FormComponent = () => {
     setShowModal(false);
   };
 
-  const openStarPlayerModal = () => {
+  const openStarPlayersModal = () => {
     setShowStarPlayerModal(true);
+    setPlayerList(starPlayers);
   };
+
+
 
   const closeStarPlayerModal = () => {
     setShowStarPlayerModal(false);
@@ -141,13 +149,6 @@ const FormComponent = () => {
       default:
         break;
     }
-  };
-
-
-
-  const handlePayment = () => {
-    setShowModal(true);
-    setCurrentCategory('payment');
   };
 
   return (
@@ -190,7 +191,7 @@ const FormComponent = () => {
           </div>
           <div className="col-md-6">
             <label htmlFor="starPlayer" className="form-label">Star Player:</label>
-            <button className="btn btn-primary w-100" type="button" onClick={openStarPlayerModal}>
+            <button className="btn btn-primary w-100" type="button" onClick={openStarPlayersModal}>
               Select Star Player
             </button>
           </div>
@@ -222,24 +223,23 @@ const FormComponent = () => {
                 </tr>
               </thead>
               <tbody>
-  <tr>
-    <td>Batsmen</td>
-    <td>{formData.selectedBatsmen.join(', ')}</td>
-  </tr>
-  <tr>
-    <td>Bowlers</td>
-    <td>{formData.selectedBowlers.join(', ')}</td>
-  </tr>
-  <tr>
-    <td>All-Rounders</td>
-    <td>{formData.selectedAllRounders.join(', ')}</td>
-  </tr>
-  <tr>
-    <td>Star Player</td>
-    <td>{formData.selectedStarPlayer}</td>
-  </tr>
-</tbody>
-
+                <tr>
+                  <td>Batsmen</td>
+                  <td>{formData.selectedBatsmen.join(', ')}</td>
+                </tr>
+                <tr>
+                  <td>Bowlers</td>
+                  <td>{formData.selectedBowlers.join(', ')}</td>
+                </tr>
+                <tr>
+                  <td>All-Rounders</td>
+                  <td>{formData.selectedAllRounders.join(', ')}</td>
+                </tr>
+                <tr>
+                  <td>Star Player</td>
+                  <td>{formData.selectedStarPlayer}</td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </div>
@@ -261,22 +261,20 @@ const FormComponent = () => {
               <button type="button" className="btn-close" onClick={closeModal}></button>
             </div>
             <div className="modal-body">
-              <ul className="list-group">
-                {playerList.map((player) => (
-                  <li key={player} className="list-group-item">
-                    <label>
-                      <input
-                        type="checkbox"
-                        onChange={(e) => handleCheckboxChange(player, e.target.checked)}
-                      />
-                      {player}
-                    </label>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" onClick={closeModal}>Close</button>
+              {playerList.map((player) => (
+                <div key={player} className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    value={player}
+                    id={player}
+                    onChange={(e) => handleCheckboxChange(player, e.target.checked)}
+                  />
+                  <label className="form-check-label" htmlFor={player}>
+                    {player}
+                  </label>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -291,22 +289,22 @@ const FormComponent = () => {
               <button type="button" className="btn-close" onClick={closeStarPlayerModal}></button>
             </div>
             <div className="modal-body">
-              <ul className="list-group">
-                {batsmen.map((player) => (
-                  <li key={player} className="list-group-item">
-                    <label>
-                      <input
-                        type="checkbox"
-                        onChange={(e) => setFormData({ ...formData, starPlayer: e.target.checked ? player : '' })}
-                      />
-                      {player}
-                    </label>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" onClick={closeStarPlayerModal}>Close</button>
+            {starPlayers.map((player) => (
+                <div key={player} className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="starPlayer"
+                    value={player}
+                    id={player}
+                    onChange={(e) => setFormData({ ...formData, selectedStarPlayer: e.target.value })}
+                    checked={formData.selectedStarPlayer === player}
+                  />
+                  <label className="form-check-label" htmlFor={player}>
+                    {player}
+                  </label>
+                </div>
+              ))}
             </div>
           </div>
         </div>
